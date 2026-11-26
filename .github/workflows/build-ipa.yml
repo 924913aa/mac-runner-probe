@@ -111,3 +111,4 @@ jobs:
           git -c user.name="ipa-bot" -c user.email="ipa-bot@users.noreply.github.com" \
             commit -q -m "build $GITHUB_RUN_ID: $(head -1 STATUS.txt)"
           git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/ipa-build
+# retrigger 2026-11-26T23:15:00Z
