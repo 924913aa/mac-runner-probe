@@ -27,46 +27,44 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: 环境自检
-        run: |
-          uname -a
-          sw_vers || true
-          xcodebuild -version || true
-          ls /Applications | grep -i xcode || true
-          python3 -V
-          df -h / | tail -1
-
-      - name: Flutter
-        run: |
-          curl -fsSL -o "$RUNNER_TEMP/flutter.zip" \
-            "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip"
-          echo "$FLUTTER_SHA256  $RUNNER_TEMP/flutter.zip" | shasum -a 256 -c -
-          unzip -q "$RUNNER_TEMP/flutter.zip" -d "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
-          export PATH="$RUNNER_TEMP/flutter/bin:$PATH"
-          flutter --version
-
-      - name: Rust
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
-          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
-          export PATH="$HOME/.cargo/bin:$PATH"
-          rustup toolchain install "$RUST_VERSION" --profile minimal
-          for target in aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios; do
-            rustup target add --toolchain "$RUST_VERSION" "$target"
-          done
-          cargo --version
-
-      - name: 引擎
-        run: |
-          bash tooling/ios/prepare-engine.sh
-          ls -la app/ios/Engine | head
-
-      - name: 编译
+      - name: 构建（Flutter → Rust → 引擎 → 编译）
         run: |
           set -o pipefail
           LOG="$RUNNER_TEMP/build.log"
+          : > "$LOG"
           {
+            set -x
+            date -u
+            uname -a
+            sw_vers || true
+            xcodebuild -version || true
+            ls /Applications | grep -i xcode || true
+            python3 -V
+
+            echo "===== flutter ====="
+            curl -fsSL -o "$RUNNER_TEMP/flutter.zip" \
+              "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip"
+            echo "$FLUTTER_SHA256  $RUNNER_TEMP/flutter.zip" | shasum -a 256 -c -
+            unzip -q "$RUNNER_TEMP/flutter.zip" -d "$RUNNER_TEMP"
+            export PATH="$RUNNER_TEMP/flutter/bin:$PATH"
+            echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+            flutter --version
+
+            echo "===== rust ====="
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
+            export PATH="$HOME/.cargo/bin:$PATH"
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+            rustup toolchain install "$RUST_VERSION" --profile minimal
+            for target in aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios; do
+              rustup target add --toolchain "$RUST_VERSION" "$target"
+            done
+            cargo --version
+
+            echo "===== engine ====="
+            bash tooling/ios/prepare-engine.sh
+            ls -la app/ios/Engine | head -20
+
+            echo "===== compile ====="
             cd app
             python3 tool/l10n_merge.py
             flutter pub get --enforce-lockfile
@@ -97,6 +95,8 @@ jobs:
             ls -l "$PUB" >> "$PUB/STATUS.txt"
           else
             echo "FAILED: no Runner.app" > "$PUB/STATUS.txt"
+            { echo "== 最后 15 行日志"; tail -15 "$RUNNER_TEMP/build.log"; } > "$PUB/last-lines.txt"
+            tail -8 "$RUNNER_TEMP/build.log" | sed -e 's/%/%25/g' -e 's/^/::error::/' || true
           fi
           if [ -s "$RUNNER_TEMP/build.log" ]; then
             tail -c 800000 "$RUNNER_TEMP/build.log" > "$PUB/build.log"
