@@ -1,0 +1,11 @@
+{
+  "node_modules/@deepseek-ai/dsh-bash-sandbox/lib/index.js": "runtime/ios/guest/overrides/node_modules/@deepseek-ai/dsh-bash-sandbox/lib/index.js",
+  "node_modules/@deepseek-ai/dsh-fs-local/lib/index.js": "runtime/ios/guest/overrides/node_modules/@deepseek-ai/dsh-fs-local/lib/index.js",
+  "node_modules/@deepseek-ai/dsh-tool-bash/lib/index.js": "runtime/ios/guest/overrides/node_modules/@deepseek-ai/dsh-tool-bash/lib/index.js",
+  "node_modules/@deepseek-ai/dsh-tool-fs-search/lib/index.js": "runtime/ios/guest/overrides/node_modules/@deepseek-ai/dsh-tool-fs-search/lib/index.js",
+  "node_modules/@deepseek-ai/dsh-tool-fs/lib/index.js": "runtime/ios/guest/overrides/node_modules/@deepseek-ai/dsh-tool-fs/lib/index.js",
+  "runtime/ohos/capabilities/snapshot.mjs": "runtime/ios/guest/overrides/runtime/ohos/capabilities/snapshot.mjs",
+  "runtime/ohos/process/index.mjs": "runtime/ios/guest/overrides/runtime/ohos/process/index.mjs",
+  "runtime/ohos/process/runtime.mjs": "runtime/ios/guest/overrides/runtime/ohos/process/runtime.mjs",
+  "runtime/ohos/process/worker.mjs": "runtime/ios/guest/overrides/runtime/ohos/process/worker.mjs"
+}
