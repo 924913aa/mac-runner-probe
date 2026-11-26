@@ -43,8 +43,6 @@ export function createSessionDeletion(ctx, { readBody, send }) {
       await services.cache.dshGoForget(sessionId);
       await services.query.dshGoForget(sessionId);
       await services.workspace.dshGoForget(sessionId);
-      const { cleanupSessionResources } = await import("@earendil-works/pi-ai");
-      cleanupSessionResources(sessionId);
     },
   });
   return {
@@ -52,12 +50,7 @@ export function createSessionDeletion(ctx, { readBody, send }) {
       if (path !== `${ROOT}/deletion` && path !== `${ROOT}/delete`) return false;
       if (path === `${ROOT}/deletion`) {
         if (req.method !== "GET") send(res, 405, errorBody("unavailable", "Use GET."));
-        else {
-          const services = await seam();
-          const supported = services !== undefined && (process.platform !== "openharmony"
-            || services.persistence.dshGoDeletion.supported === true);
-          send(res, 200, { supported, version: 1 });
-        }
+        else send(res, 200, { supported: await seam() !== undefined, version: 1 });
         return true;
       }
       if (req.method !== "POST") {
