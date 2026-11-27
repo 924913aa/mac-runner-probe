@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: build-ipa-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -144,3 +144,4 @@ jobs:
 # retrigger 2026-11-27T03:42:18Z xcodebuild-fallback
 # retrigger 2026-11-27T04:09:56Z brew-tools
 # retrigger 2026-11-27T04:10:17Z brew-marker
+# retrigger 2026-11-27T04:25:13Z cancel-prev
