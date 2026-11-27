@@ -138,3 +138,4 @@ jobs:
 # retrigger 2026-11-27T00:02:41Z revert-confirmed
 # retrigger 2026-11-27T00:14:26Z full-sync
 # retrigger 2026-11-27T03:42:18Z xcodebuild-fallback
+# retrigger 2026-11-27T04:09:56Z brew-tools
