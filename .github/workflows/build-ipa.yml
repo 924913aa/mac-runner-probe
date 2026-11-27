@@ -116,3 +116,4 @@ jobs:
 # retrigger 2026-11-26T23:41:42Z full tree
 # retrigger 2026-11-26T23:51:20Z revert patch01 again
 # retrigger 2026-11-27T00:02:41Z revert-confirmed
+# retrigger 2026-11-27T00:14:26Z full-sync
