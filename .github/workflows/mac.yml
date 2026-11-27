@@ -1,6 +1,0 @@
-name: mac probe
-on: [push, workflow_dispatch]
-jobs:
-  mac:
-    runs-on: macos-15
-    steps: [{run: echo hi && sw_vers}]
