@@ -60,6 +60,10 @@ jobs:
             done
             cargo --version
 
+            echo "===== brew tools (iSH guest) ====="
+            brew install llvm lld meson ninja || true
+            export PATH="$(brew --prefix llvm)/bin:$(brew --prefix lld)/bin:$PATH"
+
             echo "===== engine ====="
             bash tooling/ios/prepare-engine.sh
             ls -la app/ios/Engine | head -20
@@ -139,3 +143,4 @@ jobs:
 # retrigger 2026-11-27T00:14:26Z full-sync
 # retrigger 2026-11-27T03:42:18Z xcodebuild-fallback
 # retrigger 2026-11-27T04:09:56Z brew-tools
+# retrigger 2026-11-27T04:10:17Z brew-marker
