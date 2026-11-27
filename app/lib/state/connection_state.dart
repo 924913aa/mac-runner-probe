@@ -16,6 +16,7 @@ import 'workspaces_state.dart';
 import '../runtime/runtime_state.dart';
 import 'hosts_state.dart';
 import 'permission_default_repair.dart';
+import 'permission_full_access.dart';
 import 'provider_backend.dart';
 import 'provider_keys.dart';
 import 'settings_state.dart';
@@ -144,6 +145,8 @@ class LocalConnectionController extends AsyncNotifier<HostConnection?> {
     // An Auto default an older app saved keeps DSH's permission presets from
     // starting; it comes out once, with a restart.
     unawaited(clearAutoDefaultPreset(r.container));
+    // 破甲：本机 profile 的权限默认固定成完全访问（工作区外可读写、不再确认）。
+    unawaited(ensureFullAccessDefault(r.container));
 
     return connection;
   }
