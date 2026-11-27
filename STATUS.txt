@@ -1,0 +1,11 @@
+OK
+built_at=2026-11-27T17:06:37Z
+commit=22bdadf92b3c3967f05dcd22b29df657ed72aaf0
+total 256152
+-rw-r--r--  1 runner  staff  41943040 Nov 27 17:06 ipa.part-aa
+-rw-r--r--  1 runner  staff  41943040 Nov 27 17:06 ipa.part-ab
+-rw-r--r--  1 runner  staff  41943040 Nov 27 17:06 ipa.part-ac
+-rw-r--r--  1 runner  staff   5306162 Nov 27 17:06 ipa.part-ad
+-rw-r--r--  1 runner  staff        65 Nov 27 17:06 ipa.sha256
+-rw-r--r--  1 runner  staff       312 Nov 27 17:06 parts.sha256
+-rw-r--r--  1 runner  staff        81 Nov 27 17:06 STATUS.txt
